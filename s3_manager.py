@@ -21,6 +21,8 @@ import boto3
 from botocore.exceptions import ClientError, NoCredentialsError
 
 
+VERSION = "1.0.0"
+
 # ---------------------------------------------------------------------------
 # Helpers
 # ---------------------------------------------------------------------------
@@ -269,6 +271,11 @@ class S3ManagerFrame(wx.Frame):
         m_obj.Append(self.ID_COPY_KEY,   "&Copy S3 URI")
         mb.Append(m_obj, "&Objects")
 
+        # Help
+        m_help = wx.Menu()
+        m_help.Append(wx.ID_ABOUT, "&About…")
+        mb.Append(m_help, "&Help")
+
         self.SetMenuBar(mb)
 
         # Events
@@ -285,6 +292,7 @@ class S3ManagerFrame(wx.Frame):
         self.Bind(wx.EVT_MENU, self._on_object_info,    id=self.ID_OBJ_INFO)
         self.Bind(wx.EVT_MENU, self._on_presign,        id=self.ID_PRESIGN)
         self.Bind(wx.EVT_MENU, self._on_copy_key,       id=self.ID_COPY_KEY)
+        self.Bind(wx.EVT_MENU, self._on_about,          id=wx.ID_ABOUT)
 
     # -- UI ------------------------------------------------------------------
 
@@ -1073,6 +1081,25 @@ class S3ManagerFrame(wx.Frame):
             wx.TheClipboard.SetData(wx.TextDataObject(uri))
             wx.TheClipboard.Close()
         self.log_info(f"Copied: {uri}")
+
+    # -- About ---------------------------------------------------------------
+
+    def _on_about(self, _event):
+        info = wx.adv.AboutDialogInfo()
+        info.SetName("AWS S3 Manager")
+        info.SetVersion(VERSION)
+        info.SetDescription(
+            "A desktop GUI for managing AWS S3 buckets and objects.\n\n"
+            "Features:\n"
+            "  • Browse buckets and virtual folders\n"
+            "  • Upload / download files and directories\n"
+            "  • View bucket and object metadata\n"
+            "  • Generate pre-signed URLs with configurable expiry\n"
+            "  • Compatible with S3-compatible endpoints (e.g. MinIO)"
+        )
+        info.SetCopyright("© 2026")
+        info.AddDeveloper("wolkenbak")
+        wx.adv.AboutBox(info)
 
     # -- Helpers -------------------------------------------------------------
 
