@@ -96,7 +96,7 @@ class CredentialsDialog(wx.Dialog):
             "secret_key":   self.txt_secret.GetValue().strip(),
             "session_token": self.txt_token.GetValue().strip(),
             "region":       self.txt_region.GetValue().strip() or "us-east-1",
-            "endpoint_url": self.txt_endpoint.GetValue().strip() or None,
+            "endpoint_url": self.txt_endpoint.GetValue().strip(),
         }
 
 
