@@ -369,7 +369,8 @@ class S3ManagerFrame(wx.Frame):
         hfilt = wx.BoxSizer(wx.HORIZONTAL)
         hfilt.Add(wx.StaticText(right, label="Filter prefix:"),
                   flag=wx.ALIGN_CENTER_VERTICAL | wx.RIGHT, border=4)
-        self.txt_filter = wx.TextCtrl(right, size=(220, -1))
+        self.txt_filter = wx.TextCtrl(right, size=(220, -1),
+                                          style=wx.TE_PROCESS_ENTER)
         self.btn_filter = wx.Button(right, label="Go", size=(40, -1))
         self.btn_clear_filter = wx.Button(right, label="Clear", size=(50, -1))
         hfilt.Add(self.txt_filter,       flag=wx.RIGHT,              border=4)
