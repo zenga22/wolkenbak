@@ -484,7 +484,10 @@ class S3ManagerFrame(wx.Frame):
         """Ensure we have a client; prompt for credentials if not."""
         if self._s3_client is None:
             self._on_credentials(None)
-        return self._s3_client is not None
+            if self._s3_client is None:
+                # User cancelled the dialog or no creds were saved
+                return False
+        return True
 
     def _require_bucket(self) -> bool:
         if not self._current_bucket:
@@ -506,7 +509,7 @@ class S3ManagerFrame(wx.Frame):
         )
         if dlg.ShowModal() == wx.ID_OK:
             self._creds = dlg.get_values()
-            self._s3_client = None   # force rebuild
+            self._make_client()
             self.log_info("Credentials updated.")
         dlg.Destroy()
 
